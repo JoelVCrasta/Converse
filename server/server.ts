@@ -1,20 +1,20 @@
 import express from "express"
 import dotenv from "dotenv"
+import connection from "./config/mongodb"
+import userRoutes from "./Routes/userRoutes"
+import { notFound, errorHandler } from "./Middlewares/errorMiddleware"
 
 dotenv.config()
+
+connection() // connect to MongoDB
 const app = express()
+app.use(express.json())
 
-app.get("/", (req, res) => {
-  res.send("Hello World")
-})
+app.use("/api/user", userRoutes)
 
-app.get("/api/chat", (req, res) => {
-  res.json({ message: "Hello from server!" })
-})
-
-app.get("/api/chat/:id", (req, res) => {
-    
-})
+// Error Middlewares
+app.use(notFound)
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
