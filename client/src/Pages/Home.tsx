@@ -19,7 +19,7 @@ const Home = () => {
         display="flex"
         justifyContent="center"
         p="3"
-        w="50%"
+        w="600px"
         mt="40px"
         borderRadius="lg"
         bg="#444444"
@@ -28,12 +28,14 @@ const Home = () => {
           CONVERSE
         </Text>
       </Box>
-      <Box p="4" w="50%" m="40px 0 20px 0" borderRadius="lg" bg="#444444">
+
+      <Box p="4" w="600px" m="40px 0 20px 0" borderRadius="lg" bg="#444444">
         <Tabs variant="soft-rounded" color="#81A739" colorScheme="green">
           <TabList mb="8px" gap="12px">
             <Tab width="50%" color="#81A739">
               Login
             </Tab>
+
             <Tab width="50%" color="#81A739">
               Register
             </Tab>
@@ -43,6 +45,7 @@ const Home = () => {
             <TabPanel>
               <Login />
             </TabPanel>
+
             <TabPanel>
               <Register />
             </TabPanel>

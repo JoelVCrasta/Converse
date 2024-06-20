@@ -105,13 +105,17 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post("/api/user/register", loginData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      const response = await axios.post(
+        "http://localhost:4000/api/user/register",
+        loginData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         toast({
           title: "User registered successfully",
           status: "success",

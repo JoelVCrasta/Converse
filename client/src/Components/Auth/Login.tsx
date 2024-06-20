@@ -6,8 +6,11 @@ import {
   InputGroup,
   InputRightElement,
   VStack,
+  useToast,
 } from "@chakra-ui/react"
 import { useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 interface LoginProps {
   email: string
@@ -15,13 +18,61 @@ interface LoginProps {
 }
 
 const Login = () => {
+  const toast = useToast()
+  const navigate = useNavigate()
   const [show, setShow] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [loginData, setLoginData] = useState<LoginProps>({
     email: "",
     password: "",
   })
 
-  const handleLogin = (e: React.FormEvent<HTMLButtonElement>) => {}
+  const handleLogin = async (): Promise<void> => {
+    setLoading(true)
+
+    if (!loginData.email || !loginData.password) {
+      toast({
+        title: "All fields are required",
+        status: "warning",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      })
+      return
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/user/login",
+        loginData
+      )
+
+      if (response.status === 200) {
+        toast({
+          title: "Login successful",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+        })
+      }
+
+      localStorage.setItem("userInfo", JSON.stringify(response.data))
+      setLoading(false)
+
+      // redirect to chat
+      navigate("/chat")
+    } catch (err: any) {
+      toast({
+        title: err.response.data.message,
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      })
+      setLoading(false)
+    }
+  }
 
   return (
     <VStack spacing="6px">
@@ -54,6 +105,7 @@ const Login = () => {
             border="none"
             color="#81A739"
           />
+
           <InputRightElement>
             <Button
               onClick={() => {
@@ -72,9 +124,8 @@ const Login = () => {
 
       <Button
         type="submit"
-        onClick={(e) => {
-          handleLogin(e)
-        }}
+        onClick={handleLogin}
+        isLoading={loading}
         bg="#81A739"
         w="100%"
         mt="24px"

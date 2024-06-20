@@ -54,6 +54,7 @@ const authUser = expressAsyncHandler(async (req: Request, res: Response) => {
   const user = await User.findOne({ email })
 
   if (user && (await user.matchPassword(password))) {
+    res.status(200)
     res.json({
       _id: user._id,
       name: user.name,
