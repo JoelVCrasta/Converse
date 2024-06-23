@@ -21,6 +21,7 @@ app.use(
 
 app.use("/api/user", userRoutes)
 
+
 // Error Middlewares
 app.use(notFound)
 app.use(errorHandler)
