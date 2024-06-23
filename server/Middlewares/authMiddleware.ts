@@ -27,6 +27,8 @@ const protect = expressAsyncHandler(
           process.env.JWT_SECRET as string
         ) as jwt.JwtPayload
 
+        console.log(decoded)
+
         req.user = await User.findById(decoded.id).select("-password")
 
         next()

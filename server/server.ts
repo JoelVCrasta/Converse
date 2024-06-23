@@ -4,6 +4,7 @@ import cors from "cors"
 import connection from "./config/mongodb"
 import userRoutes from "./Routes/userRoutes"
 import { notFound, errorHandler } from "./Middlewares/errorMiddleware"
+import chatRoutes from "./Routes/chatRoutes"
 
 dotenv.config()
 
@@ -20,7 +21,7 @@ app.use(
 )
 
 app.use("/api/user", userRoutes)
-
+app.use("/api/chat", chatRoutes)
 
 // Error Middlewares
 app.use(notFound)
