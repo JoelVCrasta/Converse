@@ -5,6 +5,8 @@ import {
   getChats,
   createGroup,
   renameGroup,
+  addGroup,
+  removeGroup,
 } from "../Controllers/chatController"
 
 const router = express.Router()
@@ -14,7 +16,7 @@ router.get("/", protect, getChats)
 
 router.post("/group", protect, createGroup)
 router.put("/rename", protect, renameGroup)
-/* router.put("/add", protect, addGroup)
-router.put("/remove", protect, removeGroup) */
+router.put("/add", protect, addGroup)
+router.put("/remove", protect, removeGroup)
 
 export default router

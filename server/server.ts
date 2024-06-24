@@ -1,7 +1,7 @@
 import express from "express"
 import dotenv from "dotenv"
-import cors from "cors"
 import connection from "./config/mongodb"
+import cors from "cors"
 import userRoutes from "./Routes/userRoutes"
 import { notFound, errorHandler } from "./Middlewares/errorMiddleware"
 import chatRoutes from "./Routes/chatRoutes"
