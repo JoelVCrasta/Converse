@@ -54,4 +54,6 @@ export const useChat = () => {
   return useContext(ChatContext)
 }
 
+export type { User }
+
 export default ChatProvider

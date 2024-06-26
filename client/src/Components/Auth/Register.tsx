@@ -129,7 +129,7 @@ const Register = () => {
       setLoading(false)
 
       // redirect to chat
-      navigate("/chat")
+      navigate("/chats")
     } catch (err: any) {
       toast({
         title: "An error occurred",

@@ -8,7 +8,7 @@ const Chat = () => {
   const { user } = useChat()
 
   return (
-    <Container maxW="100vw" h="100vh" bg="#2F2D2E">
+    <Container p="0" maxW="100vw" h="100vh" bg="#2F2D2E">
       {user && <SideChatDrawer />}
 
       <Box display="flex" justifyContent="space-between" w="100%" h="90vh">
