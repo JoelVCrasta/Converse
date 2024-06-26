@@ -81,11 +81,25 @@ const SideChatDrawer = () => {
     }
   }
 
-  async function accessChat(userId: string): void {
+  async function accessChat(userId: string): Promise<void> {
     setLoadingChat(true)
 
     try {
-      console.log("helo")
+      const { data } = await axios.post(
+        "http://localhost:4000/api/chat",
+        { userId },
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      )
+
+      /* setChat(data) */
+
+      setLoadingChat(false)
+      onClose()
     } catch (err: any) {}
   }
 
