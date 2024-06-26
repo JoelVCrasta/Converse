@@ -34,8 +34,8 @@ export const ChatProvider = ({ children }: childProvider) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}")
-    
+    const user = JSON.parse(localStorage.getItem("userData") || "{}")
+
     if (user) {
       setUser(user)
     } else {

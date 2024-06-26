@@ -57,7 +57,7 @@ const Login = () => {
         })
       }
 
-      localStorage.setItem("userInfo", JSON.stringify(response.data))
+      localStorage.setItem("userData", JSON.stringify(response.data))
       setLoading(false)
 
       // redirect to chat

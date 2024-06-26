@@ -6,11 +6,11 @@ import { BrowserRouter } from "react-router-dom"
 import ChatProvider from "./Context/ChatProvider.tsx"
 import "./index.css"
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <ChatProvider>
-    <BrowserRouter>
-      <ChakraProvider>
+  <BrowserRouter>
+    <ChakraProvider>
+      <ChatProvider>
         <App />
-      </ChakraProvider>
-    </BrowserRouter>
-  </ChatProvider>
+      </ChatProvider>
+    </ChakraProvider>
+  </BrowserRouter>
 )
