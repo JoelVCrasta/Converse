@@ -9,8 +9,8 @@ import {
   Tabs,
 } from "@chakra-ui/react"
 
-import Login from "../Components/Auth/Login"
-import Register from "../Components/Auth/Register"
+import Login from "../Components/auth/Login"
+import Register from "../Components/auth/Register"
 
 const Home = () => {
   return (

@@ -19,18 +19,21 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/react"
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons"
+import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons"
 import { useChat } from "../../Context/ChatProvider"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import Profile from "./Profile"
+import UsersLoading from "./UsersLoading"
+import UserList from "../userList/UserList"
+import { User } from "../../Context/ChatProvider.tsx"
 
 const SideChatDrawer = () => {
   const { user } = useChat()
   const navigate = useNavigate()
   const toast = useToast()
   const [search, setSearch] = useState<string>("")
-  const [searchResults, setSearchResults] = useState<string[]>([])
+  const [searchResults, setSearchResults] = useState<User[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [loadingChat, setLoadingChat] = useState<boolean>(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -54,11 +57,14 @@ const SideChatDrawer = () => {
     setLoading(true)
 
     try {
-      const { data } = await axios.get(`/api/user?search=${search}`, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      })
+      const { data } = await axios.get(
+        `http://localhost:4000/api/user?search=${search}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      )
 
       setLoading(false)
 
@@ -73,6 +79,14 @@ const SideChatDrawer = () => {
         position: "top-left",
       })
     }
+  }
+
+  async function accessChat(userId: string): void {
+    setLoadingChat(true)
+
+    try {
+      console.log("helo")
+    } catch (err: any) {}
   }
 
   return (
@@ -143,7 +157,7 @@ const SideChatDrawer = () => {
           </DrawerHeader>
 
           <DrawerBody>
-            <Box display="flex" pb="4px">
+            <Box display="flex" pb="4px" mb="8px">
               <Input
                 placeholder="Search name or email"
                 mr="4px"
@@ -153,8 +167,23 @@ const SideChatDrawer = () => {
                 }}
               />
 
-              <Button onClick={handleSearch}></Button>
+              <Button onClick={handleSearch}>
+                <SearchIcon />
+              </Button>
             </Box>
+            {loading ? (
+              <UsersLoading />
+            ) : (
+              searchResults?.map((user) => {
+                return (
+                  <UserList
+                    key={user._id}
+                    user={user}
+                    handleFunction={() => accessChat(user._id)}
+                  />
+                )
+              })
+            )}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
