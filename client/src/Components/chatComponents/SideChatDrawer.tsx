@@ -21,15 +21,15 @@ import {
 } from "@chakra-ui/react"
 import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons"
 import { useChat } from "../../Context/ChatProvider"
+import { User } from "../../Types/types"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import Profile from "./Profile"
 import UsersLoading from "./UsersLoading"
 import UserList from "../userList/UserList"
-import { User } from "../../Context/ChatProvider.tsx"
 
 const SideChatDrawer = () => {
-  const { user } = useChat()
+  const { user, selectedChat } = useChat()
   const navigate = useNavigate()
   const toast = useToast()
   const [search, setSearch] = useState<string>("")

@@ -13,7 +13,7 @@ import {
   Text,
 } from "@chakra-ui/react"
 import { ViewIcon } from "@chakra-ui/icons"
-import { User } from "../../Context/ChatProvider.tsx"
+import { User } from "../../Types/types"
 
 type ProfileChild = {
   children: ReactNode

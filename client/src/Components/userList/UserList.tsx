@@ -1,5 +1,5 @@
 import { Avatar, Box, Text } from "@chakra-ui/react"
-import { User } from "../../Context/ChatProvider.tsx"
+import { User } from "../../Types/types"
 import { MouseEventHandler } from "react"
 
 type UserListProps = {
