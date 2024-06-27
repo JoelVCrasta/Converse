@@ -7,12 +7,12 @@ interface User {
 }
 
 interface Chat {
-    _id: string
-    chatName: string
-    isGroupChat: boolean
-    users: User[]
-    latestMessage: string
-    groupAdmin: User
+  _id: string
+  chatName: string
+  isGroupChat: boolean
+  users: User[]
+  latestMessage: string
+  groupAdmin: User
 }
 
-export type { User }
+export type { User, Chat }

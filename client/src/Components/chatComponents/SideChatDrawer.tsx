@@ -18,10 +18,11 @@ import {
   DrawerBody,
   Input,
   useToast,
+  Spinner,
 } from "@chakra-ui/react"
 import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons"
 import { useChat } from "../../Context/ChatProvider"
-import { User } from "../../Types/types"
+import { User, Chat } from "../../Types/types"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import Profile from "./Profile"
@@ -29,7 +30,7 @@ import UsersLoading from "./UsersLoading"
 import UserList from "../userList/UserList"
 
 const SideChatDrawer = () => {
-  const { user, selectedChat } = useChat()
+  const { user, setSelectedChat, chats, setChats } = useChat()
   const navigate = useNavigate()
   const toast = useToast()
   const [search, setSearch] = useState<string>("")
@@ -96,11 +97,23 @@ const SideChatDrawer = () => {
         }
       )
 
-      /* setChat(data) */
+      if (!chats?.find((chat: Chat) => chat._id === data._id)) {
+        setChats(chats ? [...chats, data] : [data])
+      }
 
+      setSelectedChat(data)
       setLoadingChat(false)
       onClose()
-    } catch (err: any) {}
+    } catch (err: any) {
+      toast({
+        title: "An Error Occured!",
+        description: err.message,
+        status: "error",
+        duration: 2500,
+        isClosable: true,
+        position: "bottom-left",
+      })
+    }
   }
 
   return (
@@ -198,6 +211,7 @@ const SideChatDrawer = () => {
                 )
               })
             )}
+            {loadingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

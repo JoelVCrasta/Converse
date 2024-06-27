@@ -6,7 +6,7 @@ import {
   useState,
 } from "react"
 import { useNavigate } from "react-router-dom"
-import { User } from "../Types/types"
+import { User, Chat } from "../Types/types"
 
 type childProvider = {
   children: ReactNode
@@ -15,10 +15,10 @@ type childProvider = {
 type ChatContextType = {
   user: User | null
   setUser: React.Dispatch<React.SetStateAction<User | null>>
-  selectedChat: any
-  setSelectedChat: React.Dispatch<React.SetStateAction<any>>
-  chats: any
-  setChats: React.Dispatch<React.SetStateAction<any>>
+  selectedChat: Chat | null
+  setSelectedChat: React.Dispatch<React.SetStateAction<Chat | null>>
+  chats: Chat[]
+  setChats: React.Dispatch<React.SetStateAction<Chat[]>>
 }
 
 // create context
@@ -26,8 +26,8 @@ const ChatContext = createContext<ChatContextType>({
   user: null,
   setUser: () => {},
   selectedChat: null,
-  setSelectedChat: () => null,
-  chats: null,
+  setSelectedChat: () => {},
+  chats: [],
   setChats: () => {},
 })
 
@@ -37,8 +37,8 @@ export const ChatProvider = ({ children }: childProvider) => {
   const navigate = useNavigate()
 
   const [user, setUser] = useState<User | null>(null)
-  const [selectedChat, setSelectedChat] = useState()
-  const [chats, setChats] = useState()
+  const [selectedChat, setSelectedChat] = useState<Chat | null>(null)
+  const [chats, setChats] = useState<Chat[]>([])
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userData") || "{}")
