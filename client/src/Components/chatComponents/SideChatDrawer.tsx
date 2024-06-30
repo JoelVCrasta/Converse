@@ -25,7 +25,7 @@ import { useChat } from "../../Context/ChatProvider"
 import { User, Chat } from "../../Types/types"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
-import Profile from "./Profile"
+import Profile from "../modals/ProfileModal"
 import UsersLoading from "../misc/UsersLoading"
 import UserList from "../misc/UserList"
 

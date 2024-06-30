@@ -68,6 +68,7 @@ const UserChats = ({ reFetch }: UserChatsProps) => {
         justifyContent="space-between"
         w="100%"
         p="10px 10px"
+        mb="10px"
         borderRadius="lg"
         bg="#504f50"
       >
@@ -91,7 +92,6 @@ const UserChats = ({ reFetch }: UserChatsProps) => {
         w="100%"
         h="100%"
         p="10px"
-        mt="10px"
         overflowY="auto"
         borderRadius="lg"
         bg="#504f50"

@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react"
 import { useChat } from "../../Context/ChatProvider.tsx"
+import InnerChatBox from "./InnerChatBox.tsx"
 
 type ChatBoxProps = {
   reFetch: boolean
@@ -22,7 +23,6 @@ const ChatBox = ({ reFetch, setReFetch }: ChatBoxProps) => {
       borderWidth="1px"
     >
       <InnerChatBox reFetch={reFetch} setReFetch={setReFetch} />
-      
     </Box>
   )
 }

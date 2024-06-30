@@ -15,7 +15,7 @@ const Chat = () => {
 
       <Box display="flex" justifyContent="space-between" w="100%" h="90vh">
         {user && <UserChats reFetch={reFetch} />}
-        {user && <ChatBox refetch={reFetch} setReFetch={setReFetch} />}
+        {user && <ChatBox reFetch={reFetch} setReFetch={setReFetch} />}
       </Box>
     </Container>
   )
