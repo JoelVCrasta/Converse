@@ -17,8 +17,8 @@ import { User } from "../../Types/types"
 import { useChat } from "../../Context/ChatProvider"
 import axios from "axios"
 import { SpinnerIcon } from "@chakra-ui/icons"
-import UserList from "../userList/UserList"
-import UserBadge from "../userList/UserBadge"
+import UserList from "../misc/UserList"
+import UserBadge from "../misc/UserBadge"
 import { set } from "mongoose"
 
 type GroupChatChild = {

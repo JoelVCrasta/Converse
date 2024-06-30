@@ -26,8 +26,8 @@ import { User, Chat } from "../../Types/types"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import Profile from "./Profile"
-import UsersLoading from "./UsersLoading"
-import UserList from "../userList/UserList"
+import UsersLoading from "../misc/UsersLoading"
+import UserList from "../misc/UserList"
 
 const SideChatDrawer = () => {
   const { user, setSelectedChat, chats, setChats } = useChat()
@@ -197,7 +197,6 @@ const SideChatDrawer = () => {
               <Button onClick={handleSearch}>
                 <SearchIcon />
               </Button>
-              
             </Box>
             {loading ? (
               <UsersLoading />

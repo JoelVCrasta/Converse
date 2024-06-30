@@ -3,12 +3,16 @@ import { Box, useToast, Text, Button, Stack } from "@chakra-ui/react"
 import { useChat } from "../../Context/ChatProvider"
 import axios from "axios"
 import { AddIcon } from "@chakra-ui/icons"
-import UsersLoading from "./UsersLoading"
+import UsersLoading from "../misc/UsersLoading.tsx"
 import { Chat, User } from "../../Types/types"
 import { getEndUser } from "../../Utils/chatUtil"
 import GroupChatModal from "./GroupChat.tsx"
 
-const UserChats = () => {
+type UserChatsProps = {
+  reFetch: boolean
+}
+
+const UserChats = ({ reFetch }: UserChatsProps) => {
   const toast = useToast()
   const [logged, setLogged] = useState<User>()
   const { user, selectedChat, setSelectedChat, chats, setChats } = useChat()
@@ -42,7 +46,7 @@ const UserChats = () => {
   useEffect(() => {
     setLogged(JSON.parse(localStorage.getItem("userData") as string))
     if (user.token) getChats()
-  }, [user.token])
+  }, [reFetch, user.token])
 
   return (
     <Box
