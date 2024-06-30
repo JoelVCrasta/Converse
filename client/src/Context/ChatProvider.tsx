@@ -13,17 +13,25 @@ type childProvider = {
 }
 
 type ChatContextType = {
-  user: User | null
-  setUser: React.Dispatch<React.SetStateAction<User | null>>
+  user: User
+  setUser: React.Dispatch<React.SetStateAction<User>>
   selectedChat: Chat | null
   setSelectedChat: React.Dispatch<React.SetStateAction<Chat | null>>
   chats: Chat[]
   setChats: React.Dispatch<React.SetStateAction<Chat[]>>
 }
 
+const userDefaultValues: User = {
+  _id: "",
+  name: "",
+  email: "",
+  picture: "",
+  token: "",
+}
+
 // create context
 const ChatContext = createContext<ChatContextType>({
-  user: null,
+  user: userDefaultValues,
   setUser: () => {},
   selectedChat: null,
   setSelectedChat: () => {},
@@ -36,7 +44,7 @@ const ChatContext = createContext<ChatContextType>({
 export const ChatProvider = ({ children }: childProvider) => {
   const navigate = useNavigate()
 
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User>(userDefaultValues)
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null)
   const [chats, setChats] = useState<Chat[]>([])
 

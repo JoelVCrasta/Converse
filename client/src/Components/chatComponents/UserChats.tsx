@@ -13,15 +13,21 @@ const UserChats = () => {
   const [logged, setLogged] = useState<User>()
   const { user, selectedChat, setSelectedChat, chats, setChats } = useChat()
 
+  console.log(logged)
+
   async function getChats() {
+    if (!user.token) {
+      console.error("Token is not available.")
+      return
+    }
+
     try {
       const { data } = await axios.get("http://localhost:4000/api/chat", {
         headers: {
-          Authorization: `Bearer ${user?.token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       })
 
-      console.log(data)
       setChats(data)
     } catch (err: any) {
       toast({
@@ -36,9 +42,9 @@ const UserChats = () => {
   }
 
   useEffect(() => {
-    setLogged(JSON.parse(localStorage.getItem("userInfo") as string))
-    getChats()
-  }, [])
+    setLogged(JSON.parse(localStorage.getItem("userData") as string))
+    if (user.token) getChats()
+  }, [user.token])
 
   return (
     <Box
@@ -98,11 +104,17 @@ const UserChats = () => {
                 p="6px 8px"
                 h="45px"
               >
-                {!chat.isGroupChat && logged ? (
-                  getEndUser(logged, chat.users)
-                ) : (
-                  <Text>{chat.chatName}</Text>
-                )}
+                <Text
+                  fontSize="16px"
+                  fontWeight="medium"
+                  color="white"
+                  w="100%"
+                  isTruncated
+                >
+                  {chat.isGroupChat == false && logged
+                    ? getEndUser(logged, chat.users)
+                    : chat.chatName}
+                </Text>
               </Box>
             ))}
           </Stack>

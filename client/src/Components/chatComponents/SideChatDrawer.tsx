@@ -62,7 +62,7 @@ const SideChatDrawer = () => {
         `http://localhost:4000/api/user?search=${search}`,
         {
           headers: {
-            Authorization: `Bearer ${user?.token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         }
       )
@@ -92,7 +92,7 @@ const SideChatDrawer = () => {
         {
           headers: {
             "Content-type": "application/json",
-            Authorization: `Bearer ${user?.token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         }
       )
