@@ -197,6 +197,7 @@ const SideChatDrawer = () => {
               <Button onClick={handleSearch}>
                 <SearchIcon />
               </Button>
+              
             </Box>
             {loading ? (
               <UsersLoading />

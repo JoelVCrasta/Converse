@@ -64,7 +64,7 @@ const Profile = ({ children, user }: ProfileChild) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button bg="#81A739" mr={3} onClick={onClose}>
               Close
             </Button>
           </ModalFooter>

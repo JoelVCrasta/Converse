@@ -6,14 +6,12 @@ import { AddIcon } from "@chakra-ui/icons"
 import UsersLoading from "./UsersLoading"
 import { Chat, User } from "../../Types/types"
 import { getEndUser } from "../../Utils/chatUtil"
+import GroupChatModal from "./GroupChat.tsx"
 
 const UserChats = () => {
   const toast = useToast()
-
   const [logged, setLogged] = useState<User>()
   const { user, selectedChat, setSelectedChat, chats, setChats } = useChat()
-
-  console.log(logged)
 
   async function getChats() {
     if (!user.token) {
@@ -71,13 +69,15 @@ const UserChats = () => {
       >
         <Text>Chats</Text>
 
-        <Button
-          display="flex"
-          fontSize={{ base: "16px", md: "10px", lg: "16px" }}
-          rightIcon={<AddIcon />}
-        >
-          New Group
-        </Button>
+        <GroupChatModal>
+          <Button
+            display="flex"
+            fontSize={{ base: "16px", md: "10px", lg: "16px" }}
+            rightIcon={<AddIcon />}
+          >
+            New Group
+          </Button>
+        </GroupChatModal>
       </Box>
 
       <Box
@@ -106,9 +106,13 @@ const UserChats = () => {
               >
                 <Text
                   fontSize="16px"
-                  fontWeight="medium"
+                  fontWeight="thin"
                   color="white"
                   w="100%"
+                  display="flex"
+                  alignItems="center"
+                  ml="4px"
+                  mt="3px"
                   isTruncated
                 >
                   {chat.isGroupChat == false && logged
