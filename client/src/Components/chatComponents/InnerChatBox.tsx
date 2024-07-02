@@ -16,7 +16,7 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
 
   return (
     <>
-      {selectedChat ? (
+      {selectedChat !== selectedChatDefaultValues ? (
         /* Display chat header and contents  */
         <>
           <Box
@@ -34,6 +34,7 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
               display={{ base: "flex", md: "none" }}
               aria-label={""}
             />
+
             <Text
               display="flex"
               w="100%"
@@ -73,7 +74,7 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
             bg="#504f50"
             borderRadius="lg"
           >
-            Messages ehre
+            Messages here
           </Box>
         </>
       ) : (

@@ -19,7 +19,6 @@ import axios from "axios"
 import { SpinnerIcon } from "@chakra-ui/icons"
 import UserList from "../misc/UserList"
 import UserBadge from "../misc/UserBadge"
-import { set } from "mongoose"
 
 type GroupChatChild = {
   children: ReactNode
@@ -30,7 +29,7 @@ const GroupChat = ({ children }: GroupChatChild) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [groupChatName, setGroupChatName] = useState<string>("")
   const [groupChatUsers, setGroupChatUsers] = useState<User[]>([])
-  const [search, setSearch] = useState<string>("")
+  const [_search, setSearch] = useState<string>("")
   const [searchResults, setSearchResults] = useState<User[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
