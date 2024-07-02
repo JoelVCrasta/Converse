@@ -19,6 +19,7 @@ import {
   Input,
   useToast,
   Spinner,
+  border,
 } from "@chakra-ui/react"
 import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons"
 import { useChat } from "../../Context/ChatProvider"
@@ -31,13 +32,17 @@ import UserList from "../misc/UserList"
 
 const SideChatDrawer = () => {
   const { user, setSelectedChat, chats, setChats } = useChat()
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate()
   const toast = useToast()
+
   const [search, setSearch] = useState<string>("")
   const [searchResults, setSearchResults] = useState<User[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [loadingChat, setLoadingChat] = useState<boolean>(false)
-  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  // -------------------------------------------------
 
   function handleLogout(): void {
     localStorage.removeItem("userInfo")
@@ -116,65 +121,71 @@ const SideChatDrawer = () => {
     }
   }
 
+  // -------------------------------------------------
+
   return (
     <>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        /* bg="white" */
-        w="100%"
-        p="5px 10px"
-        borderWidth="4px"
-      >
-        <Tooltip label="Search users to chat" hasArrow placement="bottom-end">
-          <Button onClick={onOpen} variant="ghost">
-            <i className="fa-solid fa-magnifying-glass "></i>
-            <Text display={{ base: "none", md: "flex" }} px="4">
-              Seach User
-            </Text>
-          </Button>
-        </Tooltip>
+      <Box px="12px" pt="20px">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          /* bg="white" */
+          w="100%"
+          p="5px 5px"
+          borderWidth="1px"
+          borderRadius="lg"
+        >
+          <Tooltip label="Search users to chat" hasArrow placement="bottom-end">
+            <Button onClick={onOpen} variant="solid" w="150px">
+              <i className="fa-solid fa-magnifying-glass "></i>
+              <Text display={{ base: "none", md: "flex" }} px="4">
+                Seach User
+              </Text>
+            </Button>
+          </Tooltip>
 
-        <Text fontSize="2xl" fontWeight="thin">
-          CONVERSE
-        </Text>
+          <Text fontSize="2xl" fontWeight="thin">
+            CONVERSE
+          </Text>
 
-        <section>
-          <Menu>
-            <MenuButton p="1">
-              <BellIcon fontSize="2xl" m="1" />
-            </MenuButton>
+          <section style={{ width: "150px" }}>
+            <Menu>
+              <MenuButton p="1">
+                <BellIcon fontSize="2xl" m="1" />
+              </MenuButton>
 
-            {/* <MenuList>
+              {/* <MenuList>
 
           </MenuList> */}
-          </Menu>
+            </Menu>
 
-          <Menu>
-            <MenuButton as={Button}>
-              <Avatar
-                size="sm"
-                cursor="pointer"
-                name={user?.name}
-                src={user?.picture}
-              />
-              <ChevronDownIcon ml="8px" mt="8px" />
-            </MenuButton>
+            <Menu>
+              <MenuButton as={Button}>
+                <Avatar
+                  size="sm"
+                  cursor="pointer"
+                  name={user.name}
+                  src={user.picture}
+                />
+                <ChevronDownIcon ml="8px" mt="8px" />
+              </MenuButton>
 
-            <MenuList>
-              <Profile user={user}>
-                <MenuItem>My Profile</MenuItem>
-              </Profile>
+              <MenuList>
+                <Profile user={user}>
+                  <MenuItem>My Profile</MenuItem>
+                </Profile>
 
-              <MenuDivider />
+                <MenuDivider />
 
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
-            </MenuList>
-          </Menu>
-        </section>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
+          </section>
+        </Box>
       </Box>
 
+      {/* Side Drawer to search users */}
       <Drawer placement="left" isOpen={isOpen} onClose={onClose}>
         <DrawerOverlay />
 
