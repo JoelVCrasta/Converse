@@ -13,9 +13,13 @@ type UserChatsProps = {
 }
 
 const UserChats = ({ reFetch }: UserChatsProps) => {
-  const toast = useToast()
-  const [logged, setLogged] = useState<User>()
   const { user, selectedChat, setSelectedChat, chats, setChats } = useChat()
+
+  const toast = useToast()
+
+  const [logged, setLogged] = useState<User>()
+
+  // -------------------------------------------------
 
   async function getChats() {
     if (!user.token) {
@@ -47,6 +51,8 @@ const UserChats = ({ reFetch }: UserChatsProps) => {
     setLogged(JSON.parse(localStorage.getItem("userData") as string))
     if (user.token) getChats()
   }, [reFetch, user.token])
+
+  // -------------------------------------------------
 
   return (
     <Box

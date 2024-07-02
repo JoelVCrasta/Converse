@@ -25,15 +25,18 @@ type GroupChatChild = {
 }
 
 const GroupChat = ({ children }: GroupChatChild) => {
-  const toast = useToast()
+  const { user, chats, setChats } = useChat()
+
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const toast = useToast()
+
   const [groupChatName, setGroupChatName] = useState<string>("")
   const [groupChatUsers, setGroupChatUsers] = useState<User[]>([])
   const [_search, setSearch] = useState<string>("")
   const [searchResults, setSearchResults] = useState<User[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { user, chats, setChats } = useChat()
+  // -------------------------------------------------
 
   async function handleSearch(query: string): Promise<void> {
     if (!query) return
@@ -133,6 +136,8 @@ const GroupChat = ({ children }: GroupChatChild) => {
   function removeUser(name: string): void {
     setGroupChatUsers(groupChatUsers.filter((user) => user.name !== name))
   }
+
+  // -------------------------------------------------
 
   return (
     <>

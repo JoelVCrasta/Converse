@@ -19,7 +19,6 @@ import {
   Input,
   useToast,
   Spinner,
-  border,
 } from "@chakra-ui/react"
 import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons"
 import { useChat } from "../../Context/ChatProvider"
