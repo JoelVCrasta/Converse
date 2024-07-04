@@ -1,10 +1,11 @@
 import express from "express"
 import dotenv from "dotenv"
-import connection from "./config/mongodb"
 import cors from "cors"
-import userRoutes from "./Routes/userRoutes"
 import { notFound, errorHandler } from "./Middlewares/errorMiddleware"
+import connection from "./config/mongodb"
+import userRoutes from "./Routes/userRoutes"
 import chatRoutes from "./Routes/chatRoutes"
+import messageRoutes from "./Routes/messageRoutes"
 
 dotenv.config()
 
@@ -22,6 +23,7 @@ app.use(
 
 app.use("/api/user", userRoutes)
 app.use("/api/chat", chatRoutes)
+app.use("/api/message", messageRoutes)
 
 // Error Middlewares
 app.use(notFound)
