@@ -27,6 +27,8 @@ const Login = () => {
     password: "",
   })
 
+  // -------------------------------------------------
+
   const handleLogin = async (): Promise<void> => {
     setLoading(true)
 
@@ -64,7 +66,7 @@ const Login = () => {
       navigate("/chats")
     } catch (err: any) {
       toast({
-        title: err.response.data.message,
+        title: "An error occurred!",
         status: "error",
         duration: 4000,
         isClosable: true,
@@ -73,6 +75,8 @@ const Login = () => {
       setLoading(false)
     }
   }
+
+  // -------------------------------------------------
 
   return (
     <VStack spacing="6px">

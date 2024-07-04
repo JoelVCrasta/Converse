@@ -24,9 +24,14 @@ import UserList from "../misc/UserList"
 type GroupChatModalProps = {
   reFetch: boolean
   setReFetch: (reFetch: boolean) => void
+  fetchMessages: () => void
 }
 
-const GroupChatModal = ({ reFetch, setReFetch }: GroupChatModalProps) => {
+const GroupChatModal = ({
+  reFetch,
+  setReFetch,
+  fetchMessages,
+}: GroupChatModalProps) => {
   const { user, selectedChat, setSelectedChat } = useChat()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -202,6 +207,7 @@ const GroupChatModal = ({ reFetch, setReFetch }: GroupChatModalProps) => {
         : setSelectedChat(data)
 
       setReFetch(!reFetch)
+      fetchMessages()
       setLoading(false)
     } catch (err: any) {
       toast({
