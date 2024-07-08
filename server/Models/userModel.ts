@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs"
 import { Document } from "mongoose"
 
 // Interface for User
-export interface IUser extends Document {
+interface IUser extends Document {
   name: string
   email: string
   password: string
@@ -11,7 +11,7 @@ export interface IUser extends Document {
   matchPassword: (enteredPassword: string) => Promise<boolean>
 }
 
-const userModel = new mongoose.Schema(
+const userModel: mongoose.Schema = new mongoose.Schema(
   {
     name: { type: String, trim: true, required: true },
 
@@ -38,7 +38,7 @@ userModel.methods.matchPassword = async function (
 }
 
 // Hash password before saving
-userModel.pre("save", async function (next) {
+userModel.pre<IUser>("save", async function (next) {
   if (!this.isModified) {
     next()
   }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import io, { Socket } from "socket.io-client"
 import { useChat } from "../../Context/ChatProvider"
 import {
   Box,
@@ -14,7 +15,7 @@ import { getFullEndUser } from "../../Utils/chatUtil"
 import { selectedChatDefaultValues } from "../../Context/ChatProvider"
 import Profile from "../modals/ProfileModal"
 import GroupChatModal from "../modals/GroupChatModal"
-import { Message } from "../../Types/types"
+import { Message, Chat } from "../../Types/types"
 import axios from "axios"
 import MessageBox from "./MessageBox"
 
@@ -23,6 +24,9 @@ type InnerChatProps = {
   setReFetch: (value: boolean) => void
 }
 
+const ENDPOINT = "http://localhost:4000"
+var socket: Socket, selectedChatCheck: Chat
+
 const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
   const { user, selectedChat, setSelectedChat } = useChat()
   const toast = useToast()
@@ -30,8 +34,15 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
+  const [socketConnected, setSocketConnected] = useState<boolean>(false)
 
   // -------------------------------------------------
+  useEffect(() => {
+    socket = io(ENDPOINT)
+    socket.emit("setup", user)
+    socket.on("connection", () => setSocketConnected(true))
+  }, [])
+
   async function fetchMessages(): Promise<void> {
     if (selectedChat === selectedChatDefaultValues) return
 
@@ -51,6 +62,8 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
 
       setMessages(data)
       setLoading(false)
+
+      socket.emit("join-chat", selectedChat._id)
     } catch (err: any) {
       toast({
         title: "An Error Occurred!",
@@ -78,13 +91,13 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
           },
           {
             headers: {
-              "COnetent-Type": "application/json",
+              "Content-Type": "application/json",
               Authorization: `Bearer ${user.token}`,
             },
           }
         )
 
-        console.log(data)
+        socket.emit("send-message", data)
 
         setMessages([...messages, data])
       } catch (err: any) {
@@ -102,7 +115,19 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
 
   useEffect(() => {
     fetchMessages()
+
+    selectedChatCheck = selectedChat
   }, [selectedChat])
+
+  useEffect(() => {
+    socket.on("message-received", (newMessage: Message) => {
+      if (!selectedChatCheck || selectedChatCheck._id !== newMessage.chat._id) {
+        // notify
+      } else {
+        setMessages([...messages, newMessage])
+      }
+    })
+  })
 
   // -------------------------------------------------
 
@@ -149,7 +174,9 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
               ) : (
                 <>
                   {selectedChat.chatName}
-                  <GroupChatModal reFetch={reFetch} setReFetch={setReFetch} 
+                  <GroupChatModal
+                    reFetch={reFetch}
+                    setReFetch={setReFetch}
                     fetchMessages={fetchMessages}
                   />
                 </>

@@ -7,6 +7,7 @@ import connection from "./config/mongodb"
 import userRoutes from "./Routes/userRoutes"
 import chatRoutes from "./Routes/chatRoutes"
 import messageRoutes from "./Routes/messageRoutes"
+import { User, Message } from "./Types/types"
 
 dotenv.config()
 
@@ -45,5 +46,27 @@ const io = require("socket.io")(server, {
 })
 
 io.on("connection", (socket: sock.Socket) => {
-  console.log("Connected to Socket: ")
+  console.log("Connected to Socket")
+
+  socket.on("setup", (user: User) => {
+    socket.join(user._id)
+    socket.emit("connected")
+  })
+
+  socket.on("join-chat", (roomId) => {
+    socket.join(roomId)
+    console.log(`User joined room: ${roomId}`)
+  })
+
+  socket.on("send-message", (newMessage: Message) => {
+    var chat = newMessage.chat
+
+    if (!chat.users) return console.log("Chat.users not defined")
+
+    chat.users.forEach((user: User) => {
+      if (user._id === newMessage.sender._id) return
+
+      socket.in(user._id).emit("message-received", newMessage)
+    })
+  })
 })
