@@ -48,14 +48,14 @@ export function isSameSenderAlign(
     messages[idx + 1].sender._id === message.sender._id &&
     messages[idx].sender._id !== loggedId
   ) {
-    return 33
+    return 40
   } else if (
     (idx < messages.length - 1 &&
       messages[messages.length - 1].sender._id !== message.sender._id &&
       messages[idx].sender._id !== loggedId) ||
     (idx === messages.length - 1 && messages[idx].sender._id !== loggedId)
   ) {
-    return 0
+    return 7
   } else {
     return "auto"
   }

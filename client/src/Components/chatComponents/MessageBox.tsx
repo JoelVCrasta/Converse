@@ -31,8 +31,8 @@ const MessageBox = ({ messages }: MessageBoxProps) => {
                   >
                     <Avatar
                       size="sm"
-                      mr="8px"
                       cursor="pointer"
+                      mt="8px"
                       name={message.sender.name}
                       src={message.sender.picture}
                     />
@@ -48,9 +48,10 @@ const MessageBox = ({ messages }: MessageBoxProps) => {
                     message.sender._id === user._id ? "black" : "white"
                   }`,
 
-                  borderRadius: "12px",
-                  padding: "8px 16px",
+                  borderRadius: "8px",
+                  padding: "6px 12px",
                   maxWidth: "70%",
+
                   marginLeft: isSameSenderAlign(
                     messages,
                     message,
