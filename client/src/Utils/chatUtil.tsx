@@ -20,7 +20,7 @@ export function isSameSender(
   return (
     idx < messages.length - 1 &&
     (messages[idx + 1].sender._id !== message.sender._id ||
-      messages[idx + 1].sender._id === undefined) &&
+      messages[idx + 1].sender._id === "") &&
     messages[idx].sender._id !== loggedId
   )
 }
@@ -33,6 +33,38 @@ export function isLastMessage(
   return (
     idx === messages.length - 1 &&
     messages[messages.length - 1].sender._id !== loggedId &&
-    messages[messages.length - 1].sender._id !== undefined
+    Boolean(messages[messages.length - 1].sender._id)
   )
+}
+
+export function isSameSenderAlign(
+  messages: Message[],
+  message: Message,
+  idx: number,
+  loggedId: string
+): number | string {
+  if (
+    idx < messages.length - 1 &&
+    messages[idx + 1].sender._id === message.sender._id &&
+    messages[idx].sender._id !== loggedId
+  ) {
+    return 33
+  } else if (
+    (idx < messages.length - 1 &&
+      messages[messages.length - 1].sender._id !== message.sender._id &&
+      messages[idx].sender._id !== loggedId) ||
+    (idx === messages.length - 1 && messages[idx].sender._id !== loggedId)
+  ) {
+    return 0
+  } else {
+    return "auto"
+  }
+}
+
+export function isSameUser(
+  messages: Message[],
+  message: Message,
+  idx: number
+): boolean {
+  return idx > 0 && messages[idx - 1].sender._id === message.sender._id
 }
