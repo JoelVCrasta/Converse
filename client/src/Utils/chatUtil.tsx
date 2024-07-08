@@ -1,4 +1,4 @@
-import { User } from "../Types/types"
+import { User, Message } from "../Types/types"
 
 export function getEndUser(logged: User, users: User[]): string {
   if (users.length > 1)
@@ -9,4 +9,18 @@ export function getEndUser(logged: User, users: User[]): string {
 export function getFullEndUser(logged: User, users: User[]): User {
   if (users.length > 1) return users[0]._id === logged._id ? users[1] : users[0]
   else return logged
+}
+
+export function isSameSender(
+  messages: Message[],
+  message: Message,
+  idx: number,
+  logged: string
+): boolean {
+  return (
+    idx < messages.length - 1 &&
+    (messages[idx + 1].sender._id !== message.sender._id ||
+      messages[idx + 1].sender._id === undefined) &&
+    messages[idx].sender._id !== logged
+  )
 }
