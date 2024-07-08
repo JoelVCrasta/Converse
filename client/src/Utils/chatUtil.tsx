@@ -15,12 +15,24 @@ export function isSameSender(
   messages: Message[],
   message: Message,
   idx: number,
-  logged: string
+  loggedId: string
 ): boolean {
   return (
     idx < messages.length - 1 &&
     (messages[idx + 1].sender._id !== message.sender._id ||
       messages[idx + 1].sender._id === undefined) &&
-    messages[idx].sender._id !== logged
+    messages[idx].sender._id !== loggedId
+  )
+}
+
+export function isLastMessage(
+  messages: Message[],
+  idx: number,
+  loggedId: string
+): boolean {
+  return (
+    idx === messages.length - 1 &&
+    messages[messages.length - 1].sender._id !== loggedId &&
+    messages[messages.length - 1].sender._id !== undefined
   )
 }
