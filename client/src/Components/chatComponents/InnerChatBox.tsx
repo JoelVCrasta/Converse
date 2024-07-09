@@ -35,13 +35,18 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
   const [newMessage, setNewMessage] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
   const [socketConnected, setSocketConnected] = useState<boolean>(false)
+  const [typing, setTyping] = useState<boolean>(false)
+  const [isTyping, setIsTyping] = useState<boolean>(false)
 
   // -------------------------------------------------
   useEffect(() => {
     socket = io(ENDPOINT)
+    if (!user) return
     socket.emit("setup", user)
-    socket.on("connection", () => setSocketConnected(true))
-  }, [])
+    socket.on("connected", () => setSocketConnected(true))
+    socket.on("typing", () => setIsTyping(true))
+    socket.on("stop-typing", () => setIsTyping(false))
+  }, [user])
 
   async function fetchMessages(): Promise<void> {
     if (selectedChat === selectedChatDefaultValues) return
@@ -80,6 +85,7 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
     e: React.KeyboardEvent<HTMLInputElement>
   ): Promise<void> {
     if (e.key === "Enter" && newMessage) {
+      socket.emit("stop-typing", selectedChat._id)
       setNewMessage("")
 
       try {
@@ -111,6 +117,30 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
         })
       }
     }
+  }
+
+  function handleTyping(e: React.ChangeEvent<HTMLInputElement>): void {
+    setNewMessage(e.target.value)
+
+    if (!socketConnected) return
+
+    if (!typing) {
+      setTyping(true)
+      socket.emit("typing", selectedChat._id)
+    }
+
+    let lastTypedTime: number = new Date().getTime()
+    let timer: number = 3000
+
+    setTimeout(() => {
+      let timeNow: number = new Date().getTime()
+      let timeDiff: number = timeNow - lastTypedTime
+
+      if (timeDiff >= timer && typing) {
+        socket.emit("stop-typing", selectedChat._id)
+        setTyping(false)
+      }
+    }, timer)
   }
 
   useEffect(() => {
@@ -209,11 +239,16 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
             )}
 
             <FormControl onKeyDown={sendMessage} isRequired mt="6px">
+              {isTyping && (
+                <Box color="whitesmoke" fontWeight="thin">
+                  typing...
+                </Box>
+              )}
               <Input
                 variant="filled"
                 placeholder="Type a message"
                 value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
+                onChange={handleTyping}
               />
             </FormControl>
           </Box>

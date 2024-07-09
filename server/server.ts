@@ -53,9 +53,17 @@ io.on("connection", (socket: sock.Socket) => {
     socket.emit("connected")
   })
 
-  socket.on("join-chat", (roomId) => {
+  socket.on("join-chat", (roomId: string) => {
     socket.join(roomId)
     console.log(`User joined room: ${roomId}`)
+  })
+
+  socket.on("typing", (room: string) => {
+    socket.in(room).emit("typing")
+  })
+
+  socket.on("stop-typing", (room: string) => {
+    socket.in(room).emit("stop-typing")
   })
 
   socket.on("send-message", (newMessage: Message) => {
@@ -68,5 +76,10 @@ io.on("connection", (socket: sock.Socket) => {
 
       socket.in(user._id).emit("message-received", newMessage)
     })
+  })
+
+  socket.off("setup", (userId: string) => {
+    console.log("Disconnected from Socket")
+    socket.leave(userId)
   })
 })
