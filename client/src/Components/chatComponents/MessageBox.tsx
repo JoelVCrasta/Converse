@@ -42,12 +42,9 @@ const MessageBox = ({ messages }: MessageBoxProps) => {
               <span
                 style={{
                   backgroundColor: `${
-                    message.sender._id === user._id ? "whitesmoke" : "#81A739"
+                    message.sender._id === user._id ? "#3f3d3e" : "#81A739"
                   }`,
-                  color: `${
-                    message.sender._id === user._id ? "black" : "white"
-                  }`,
-
+                  color: "whitesmoke",
                   borderRadius: "8px",
                   padding: "6px 12px",
                   maxWidth: "70%",

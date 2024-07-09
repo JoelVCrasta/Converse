@@ -109,7 +109,7 @@ const UserChats = ({ reFetch }: UserChatsProps) => {
                 key={chat._id}
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
-                bg={selectedChat === chat ? "#81A739" : "#504f90"}
+                bg={selectedChat === chat ? "#81A739" : "#3f3d3e"}
                 borderRadius="lg"
                 p="6px 8px"
                 h="45px"
