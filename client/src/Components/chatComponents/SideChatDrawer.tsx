@@ -247,7 +247,7 @@ const SideChatDrawer = () => {
             {loading ? (
               <UsersLoading />
             ) : (
-              searchResults?.map((user) => {
+              searchResults.map((user) => {
                 return (
                   <UserList
                     key={user._id}

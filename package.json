@@ -4,7 +4,8 @@
   "description": "chat app using mern",
   "main": "server.ts",
   "scripts": {
-    "dev": "nodemon --watch server --exec ts-node ./server/server.ts"
+    "dev": "nodemon --watch server --exec ts-node ./server/server.ts",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "author": "Joel Crasta",
   "license": "ISC",

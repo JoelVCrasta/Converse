@@ -102,7 +102,7 @@ const UserChats = ({ reFetch }: UserChatsProps) => {
         borderRadius="lg"
         bg="#504f50"
       >
-        {chats ? (
+        {Array.isArray(chats) ? (
           <Stack overflow="auto" w="100%">
             {chats.map((chat: Chat) => (
               <Box

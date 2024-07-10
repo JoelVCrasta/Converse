@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 import * as sock from "socket.io"
+import path from "path"
 import { notFound, errorHandler } from "./Middlewares/errorMiddleware"
 import connection from "./config/mongodb"
 import userRoutes from "./Routes/userRoutes"
@@ -22,6 +23,25 @@ app.use(
     credentials: true,
   })
 )
+
+// ---------------- Deployment ----------------
+
+const __dirname_1 = path.resolve()
+// console.log(__dirname_1)
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname_1, "/client/dist")))
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname_1, "client", "dist", "index.html"))
+  )
+} else {
+  app.use("/", (req, res) => {
+    res.send("API is running...")
+  })
+}
+
+// --------------------------------------------
 
 app.use("/api/user", userRoutes)
 app.use("/api/chat", chatRoutes)
@@ -46,7 +66,7 @@ const io = require("socket.io")(server, {
 })
 
 io.on("connection", (socket: sock.Socket) => {
-  console.log("Connected to Socket")
+  // console.log("Connected to Socket")
 
   socket.on("setup", (user: User) => {
     socket.join(user._id)
