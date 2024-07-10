@@ -21,7 +21,10 @@ const MessageBox = ({ messages }: MessageBoxProps) => {
       {messages &&
         messages.map((message: Message, idx) => {
           return (
-            <section key={message._id} style={{ display: "flex" }}>
+            <section
+              key={message._id}
+              style={{ display: "flex", marginRight: "2px" }}
+            >
               {!isSameSender(messages, message, idx, user._id) ||
                 (!isLastMessage(messages, idx, user._id) && (
                   <Tooltip
