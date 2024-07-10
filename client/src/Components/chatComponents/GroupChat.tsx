@@ -198,6 +198,7 @@ const GroupChat = ({ children }: GroupChatChild) => {
             {loading ? (
               <SpinnerIcon />
             ) : (
+              Array.isArray(searchResults) &&
               searchResults
                 .slice(0, 4)
                 .map((user: User) => (
