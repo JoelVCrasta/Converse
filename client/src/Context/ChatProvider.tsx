@@ -6,7 +6,7 @@ import {
   useState,
 } from "react"
 import { useNavigate } from "react-router-dom"
-import { User, Chat } from "../Types/types"
+import { User, Chat, Message } from "../Types/types"
 
 type childProvider = {
   children: ReactNode
@@ -19,6 +19,8 @@ type ChatContextType = {
   setSelectedChat: React.Dispatch<React.SetStateAction<Chat>>
   chats: Chat[]
   setChats: React.Dispatch<React.SetStateAction<Chat[]>>
+  notifications: Message[]
+  setNotifications: React.Dispatch<React.SetStateAction<Message[]>>
 }
 
 const userDefaultValues: User = {
@@ -32,10 +34,21 @@ const userDefaultValues: User = {
 export const selectedChatDefaultValues: Chat = {
   _id: "",
   chatName: "",
-  users: [],
   isGroupChat: false,
-  latestMessage: "",
+  users: [],
   groupAdmin: userDefaultValues,
+  latestMessage: {
+    _id: "",
+    sender: userDefaultValues,
+    content: "",
+    chat: {
+      _id: "",
+      chatName: "",
+      isGroupChat: false,
+      users: [],
+      groupAdmin: userDefaultValues,
+    },
+  },
 }
 
 // create context
@@ -46,6 +59,8 @@ const ChatContext = createContext<ChatContextType>({
   setSelectedChat: () => {},
   chats: [],
   setChats: () => {},
+  notifications: [],
+  setNotifications: () => {},
 })
 
 //
@@ -58,6 +73,7 @@ export const ChatProvider = ({ children }: childProvider) => {
     selectedChatDefaultValues
   )
   const [chats, setChats] = useState<Chat[]>([])
+  const [notifications, setNotifications] = useState<Message[]>([])
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userData") || "{}")
@@ -76,6 +92,8 @@ export const ChatProvider = ({ children }: childProvider) => {
     setSelectedChat,
     chats,
     setChats,
+    notifications,
+    setNotifications,
   }
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>

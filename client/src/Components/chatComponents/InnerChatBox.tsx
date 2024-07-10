@@ -28,7 +28,13 @@ const ENDPOINT = "http://localhost:4000"
 var socket: Socket, selectedChatCheck: Chat
 
 const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
-  const { user, selectedChat, setSelectedChat } = useChat()
+  const {
+    user,
+    selectedChat,
+    setSelectedChat,
+    notifications,
+    setNotifications,
+  } = useChat()
   const toast = useToast()
 
   const [messages, setMessages] = useState<Message[]>([])
@@ -152,7 +158,10 @@ const InnerChatBox = ({ reFetch, setReFetch }: InnerChatProps) => {
   useEffect(() => {
     socket.on("message-received", (newMessage: Message) => {
       if (!selectedChatCheck || selectedChatCheck._id !== newMessage.chat._id) {
-        // notify
+        if (!notifications.includes(newMessage)) {
+          setNotifications([newMessage, ...notifications])
+          setReFetch(!reFetch)
+        }
       } else {
         setMessages([...messages, newMessage])
       }

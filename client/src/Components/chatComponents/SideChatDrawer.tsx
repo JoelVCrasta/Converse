@@ -28,9 +28,17 @@ import axios from "axios"
 import Profile from "../modals/ProfileModal"
 import UsersLoading from "../misc/UsersLoading"
 import UserList from "../misc/UserList"
+import { getEndUser } from "../../Utils/chatUtil"
 
 const SideChatDrawer = () => {
-  const { user, setSelectedChat, chats, setChats } = useChat()
+  const {
+    user,
+    setSelectedChat,
+    chats,
+    setChats,
+    notifications,
+    setNotifications,
+  } = useChat()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate()
@@ -149,14 +157,42 @@ const SideChatDrawer = () => {
           </Text>
 
           <section style={{ width: "150px" }}>
-            <Menu>
+            <Menu isLazy>
               <MenuButton p="1">
                 <BellIcon fontSize="2xl" m="1" />
               </MenuButton>
 
-              {/* <MenuList>
-
-          </MenuList> */}
+              <MenuList
+                display="flex"
+                flexDir="column"
+                justifyContent="center"
+                bg="#2F2D2E"
+                rowGap="4px"
+                px="4px"
+              >
+                {!notifications.length
+                  ? "No new Messages"
+                  : notifications.map((notif) => (
+                      <MenuItem
+                        onClick={() => {
+                          setNotifications(
+                            notifications.filter((n) => n._id !== notif._id)
+                          )
+                        }}
+                        key={notif._id}
+                        bg="#3f3d3e"
+                        borderRadius="sm"
+                        p="2px 6px"
+                      >
+                        {notif.chat.isGroupChat
+                          ? `New Message in ${notif.chat.chatName}`
+                          : `New Message from ${getEndUser(
+                              user,
+                              notif.chat.users
+                            )}`}
+                      </MenuItem>
+                    ))}
+              </MenuList>
             </Menu>
 
             <Menu>

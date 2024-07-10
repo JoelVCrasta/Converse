@@ -10,7 +10,7 @@ interface Message {
   _id: string
   sender: User
   content: string
-  chat: Chat
+  chat: Omit<Chat, "latestMessage">
 }
 
 interface Chat {
